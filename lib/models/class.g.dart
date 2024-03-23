@@ -1,13 +1,13 @@
-//////////////////////////////////////////////
-////         ____             __
-////        / __ \____ ______/ /_
-////       / / / / __ `/ ___/ __/
-////      / /_/ / /_/ / /  / /_
-////     /_____/\__,_/_/   \__/
+////////////////////////////////////////////////////////////
+////           ____             __
+////          / __ \____ ______/ /_
+////         / / / / __ `/ ___/ __/
+////        / /_/ / /_/ / /  / /_
+////       /_____/\__,_/_/   \__/
 ////
-////   CODE GENERATED DO NOT MODIFY !!!
+////   GENERATED CODE - DO NOT MODIFY BY HAND
 ////
-//////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 import 'user.g.dart';
 
@@ -15,11 +15,13 @@ class ClassModel {
   final List<UserModel> students;
   final double? score;
   final double? total;
+  final TeacherItemModel? teacher;
 
   ClassModel({
     this.students = const [],
     this.score,
     this.total,
+    this.teacher,
   });
 
   factory ClassModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,9 @@ class ClassModel {
               .toList(),
       score: json['score'] as double?,
       total: json['total'] as double?,
+      teacher: json['teacher'] == null
+          ? null
+          : TeacherItemModel.fromJson(json['teacher'] as Map<String, dynamic>),
     );
   }
 
@@ -39,19 +44,20 @@ class ClassModel {
       'students': students,
       'score': score,
       'total': total,
+      'teacher': teacher,
     };
   }
 }
-//////////////////////////////////////////////
-////         ____             __
-////        / __ \____ ______/ /_
-////       / / / / __ `/ ___/ __/
-////      / /_/ / /_/ / /  / /_
-////     /_____/\__,_/_/   \__/
+////////////////////////////////////////////////////////////
+////           ____             __
+////          / __ \____ ______/ /_
+////         / / / / __ `/ ___/ __/
+////        / /_/ / /_/ / /  / /_
+////       /_____/\__,_/_/   \__/
 ////
-////   CODE GENERATED DO NOT MODIFY !!!
+////   GENERATED CODE - DO NOT MODIFY BY HAND
 ////
-//////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 class TeacherItemModel {
   final String name;

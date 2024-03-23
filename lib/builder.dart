@@ -13,6 +13,7 @@ class GenerateBuilder {
 
   final String name;
   final newTypeList = [];
+  final innerTypeList = [];
   final fields = <Filed>[];
   final Map<String, Map> _newFiles = {};
   final formatter = DartFormatter();
@@ -37,6 +38,7 @@ class GenerateBuilder {
   String get className => _className;
   Map<String, Map> get newFiles => _newFiles;
   bool isNewType(String type) => newTypeList.contains(type);
+  bool isInnerType(String type) => innerTypeList.contains(type);
   String getClassName(String name) => name[0].toUpperCase() + name.substring(1) + "Model";
 
   String get text => template
@@ -64,8 +66,8 @@ class GenerateBuilder {
       }
 
       if (value is String) {
-        if (value.startsWith("[]\$")) {
-          final type = value.substring(3);
+        if (value.startsWith("[]")) {
+          final type = value.substring(2);
           newTypeList.add(type);
 
           field.type = type;
@@ -81,10 +83,16 @@ class GenerateBuilder {
         field.type = "bool";
       } else if (value is List) {
         field.isList = true;
+        if (value.first is Map || value.first is List) {
+          // ignore
+          continue;
+        }
+
         field.type = value.first.runtimeType.toString();
       } else if (value is Map) {
         _newFiles[item + "Item"] = value;
-        continue;
+        field.type = item + "Item";
+        innerTypeList.add(field.type);
       }
 
       fields.add(field);
@@ -95,7 +103,12 @@ class GenerateBuilder {
     final buffer = StringBuffer();
     for (var item in fields) {
       final nullable = item.required || item.isList || (item.value != null) ? "" : "?";
-      final type = item.isList && isNewType(item.type) ? getClassName(item.type) : item.type;
+      final type = item.isList && isNewType(item.type)
+          ? getClassName(item.type)
+          : isInnerType(item.type)
+              ? getClassName(item.type)
+              : item.type;
+
       buffer.write('final ${item.isList ? "List<" : ""}$type${item.isList ? ">" : ""}$nullable ${item.name};\n');
     }
 
@@ -130,7 +143,12 @@ class GenerateBuilder {
           buffer.write("(json[\'${item.name}\'] as List).map((e) => e as ${item.type}).toList(), ");
         }
       } else {
-        buffer.write("json[\'${item.name}\'] as ${item.type}$nullable, ");
+        if (isInnerType(item.type)) {
+          buffer.write(
+              "json[\'${item.name}\'] == null ? null : ${getClassName(item.type)}.fromJson(json[\'${item.name}\'] as Map<String, dynamic>), ");
+        } else {
+          buffer.write("json[\'${item.name}\'] as ${item.type}$nullable, ");
+        }
       }
     }
     return buffer.toString();

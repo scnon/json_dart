@@ -34,7 +34,7 @@ ExampleModel({required this.id, this.sex = 1, this.name})
 And you can use custom class List like this:
 ```json
 {
-  "list": "[]$example"
+  "list": "[]example"
 }
 ```
 ```dart
