@@ -11,29 +11,74 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+This is a simple package to help build dart model from json.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+About json file you can add some sign to assign default or nullable or not like this:
+```json
+{
+  "r@id": 1,
+  "d@sex": 1
+  "name": "Jack"
+}
+```
+you will get like this:
+```dart
+class ExampleModel {
+final int id;
+final int sex;
+final String? name;
+ExampleModel({required this.id, this.sex = 1, this.name})
+```
+And you can use custom class List like this:
+```json
+{
+  "list": "[]$example"
+}
+```
+```dart
+final List<ExampleModel> list;
+```
+Also it support nested object like this:
+```json
+{
+  "list": {
+    "length": 3,
+    "body": []
+  }
+}
+```
+It will auto generate a class named ***ListItemModel***
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+1. Add to your ***pubspec.yaml***
 
-```dart
-const like = 'sample';
+```yaml
+dev_dependencies:
+  build_runner: any
+  json_dart:
+    git:
+      url: git://github.com/scnon/json_dart.git
 ```
 
-## Additional information
+2. You need put some json file to your jsons folder.like this:
+```
+├── jsons
+│   ├── class.json
+│   └── user.json
+├── libs
+│   └── main.dart
+```
+3. Just run it like this:
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```bash
+dart run build_runner build
+```
+4. You will see you json model file in ***lib/models/***
+5. Enjoy it.
