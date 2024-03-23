@@ -1,0 +1,10 @@
+{
+    "students": "[]$user",
+    "score": 3.0,
+    "total": 3.0,
+    "teacher": {
+        "r@name": "Mr. Smith",
+        "r@id": 1,
+        "age": 30
+    }
+}

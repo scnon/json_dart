@@ -1,0 +1,7 @@
+{
+    "r@id": 1,
+    "r@name": "John Doe",
+    "r@age": 25,
+    "email": "",
+    "numbers": [ 1, 2, 3]
+}
