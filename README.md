@@ -9,7 +9,7 @@ About json file you can add some sign to assign default or nullable or not like 
 ```json
 {
   "r@id": 1,
-  "d@sex": 1
+  "d@sex": 1,
   "name": "Jack"
 }
 ```
@@ -22,6 +22,7 @@ final int id;
 final int sex;
 final String? name;
 ExampleModel({required this.id, this.sex = 1, this.name})
+}
 ```
 
 And you can use custom class List like this:
